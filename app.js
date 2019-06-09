@@ -12,10 +12,12 @@ const methodOverride = require('method-override')
 
 const db = require('./models')
 
-// 設置 template engine
+// 設置 view
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'views'))
 
+// 設置 upload 
+app.use('/upload', express.static(path.join(__dirname, 'upload')))
 // 使用 bodyParser
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({
@@ -27,6 +29,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 app.use(methodOverride('_method'))
+
 
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg')
