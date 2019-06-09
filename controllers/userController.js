@@ -7,13 +7,13 @@ const userController = {
   signUp: (req, res) => {
     if (req.body.password !== req.body.passwordCheck) {
       req.flash('error_msg', '兩次輸入密碼不同！')
-      res.redirect('/signup')
+      return res.redirect('/signup')
     } else {
       User.findOne({ where: { email: req.body.email } })
         .then(user => {
           if (user) {
             req.flash('error_msg', '此信箱已被註冊過了！')
-            res.redirect('/signup')
+            return res.redirect('/signup')
           } else {
             User.create({
               name: req.body.name,
@@ -22,7 +22,7 @@ const userController = {
             })
               .then(user => {
                 req.flash('success_msg', '成功註冊帳號！')
-                res.redirect('/signin')
+                return res.redirect('/signin')
               })
           }
         })
