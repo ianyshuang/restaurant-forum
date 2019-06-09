@@ -1,0 +1,29 @@
+extends ../layouts/main.pug
+
+block content
+  h1 餐廳後台
+
+  a(href='/admin/restaurants/create')
+    button(type="button" class="btn btn-primary") New Restaurant
+
+  br
+  br
+
+  table(class="table")
+    thead(class="thead-dark")
+      tr
+        th(scope="col") #
+        th(scope="col") Name
+        th(scope="col") #
+    tbody
+      for restaurant in restaurants
+        tr
+          th(scope="row") #{restaurant.id}
+          td #{restaurant.name}
+          td
+            button(type="button" class="btn btn-link")
+              a(href=`/admin/restaurants/${restaurant.id}`) Show
+            button(type="button" class="btn btn-link")
+              a(href=`/admin/restaurants/${restaurant.id}/edit`) Edit
+            form(action=`/admin/restaurants/${restaurant.id}?_method=DELETE` method="POST" style="display: inline;")
+              button(type="submit" class="btn btn-link") Delete

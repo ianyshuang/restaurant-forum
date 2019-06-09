@@ -1,0 +1,29 @@
+extends ../layouts/main.pug
+
+block content
+  div(class="row")
+    div(class="col-md-12")
+      h1 #{restaurant.name}
+
+    div(class="col-md-4")
+      br
+      div(class="well")
+        ul(class="list-unstyled")
+          li
+            strong Opening Hour:
+            | #{restaurant.opening_hours}
+          li
+            strong Tel:
+            | #{restaurant.tel}
+          li
+            strong Address:
+            | #{restaurant.address}
+    div(class="col-md-8")
+      p #{restaurant.description}
+    hr
+
+  hr
+
+  br
+  br
+  a(href="javascript:history.back()") 回上一頁

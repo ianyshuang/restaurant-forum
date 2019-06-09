@@ -1,0 +1,49 @@
+extends ../layouts/main.pug
+
+block content
+  if restaurant
+    form(action=`/admin/restaurants/${restaurant.id}?_method=PUT` method="POST")
+      div(class="form-group")
+        label(for="name") Name
+        input(type="text" class="form-control" name="name" id="name" placeholder="Enter name" value=`${restaurant.name}`)
+
+      div(class="form-group")
+        label(for="tel") Tel
+        input(type="text" class="form-control" name="tel" id="tel" placeholder="Enter tel" value=`${restaurant.tel}`)
+
+      div(class="form-group")
+        label(for="address") Address
+        input(type="text" class="form-control" name="address" id="address" placeholder="Enter address" value=`${restaurant.address}`)
+
+      div(class="form-group")
+        label(for="opening_hours") Opening Hours
+        input(type="time" class="form-control" name="opening_hours" id="opening_hours" placeholder="Enter opening_hours" value=`${restaurant.opening_hours}`)
+
+      div(class="form-group")
+        label(for="description") Description
+        textarea(class="form-control" id="description" name="description" rows="3") #{restaurant.description}
+
+      button(type="submit" class="btn btn-primary") Submit
+  else
+    form(action="/admin/restaurants" method="POST")
+      div(class="form-group")
+        label(for="name") Name
+        input(type="text" class="form-control" name="name" id="name" placeholder="Enter name")
+
+      div(class="form-group")
+        label(for="tel") Tel
+        input(type="text" class="form-control" name="tel" id="tel" placeholder="Enter tel")
+
+      div(class="form-group")
+        label(for="address") Address
+        input(type="text" class="form-control" name="address" id="address" placeholder="Enter address")
+
+      div(class="form-group")
+        label(for="opening_hours") Opening Hours
+        input(type="time" class="form-control" name="opening_hours" id="opening_hours" placeholder="Enter opening_hours")
+
+      div(class="form-group")
+        label(for="description") Description
+        textarea(class="form-control" id="description" name="description" rows="3")
+
+      button(type="submit" class="btn btn-primary") Submit
