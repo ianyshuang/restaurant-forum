@@ -7,11 +7,11 @@ const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const adminController = {
-  getUsers: (req, res) => {
+  editUser: (req, res) => {
     User.findAll()
       .then(users => res.render('admin/users', { users }))
   },
-  putUsers: (req, res) => {
+  putUser: (req, res) => {
     User.findByPk(req.params.id)
       .then(user => {
         if (user.isAdmin) {
