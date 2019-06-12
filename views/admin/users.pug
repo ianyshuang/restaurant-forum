@@ -1,0 +1,35 @@
+extends ../layouts/main.pug
+
+block content
+  h1 餐廳後台
+
+  div
+    a(href="/admin/restaurants") Restaurants
+    | |
+    a(href="/admin/users") Users
+
+  br
+
+  table(class="table")
+    thead(class="thead-dark")
+      tr
+        th(scope="col") #
+        th(scope="col") Email
+        th(scope="col") Role
+        th(scope="col") #
+    tbody
+      for user in users
+        tr
+          th(scope="row") #{user.id}
+          td #{user.email}
+          if user.isAdmin
+            td admin
+          else
+            td user
+          td
+            if user.isAdmin
+              form(action=`/admin/users/${user.id}?_method=PUT` method="POST" style="display: inline;")
+                button(type="submit" class="btn btn-link") set as user
+            else
+              form(action=`/admin/users/${user.id}?_method=PUT` method="POST" style="display: inline;")
+                button(type="submit" class="btn btn-link") set as admin

@@ -3,9 +3,16 @@ extends ../layouts/main.pug
 block content
   h1 餐廳後台
 
+  div
+    a(href="/admin/restaurants") Restaurants
+    | |
+    a(href="/admin/users") Users
+
+  br
+
   a(href='/admin/restaurants/create')
     button(type="button" class="btn btn-primary") New Restaurant
-
+  
   br
   br
 
