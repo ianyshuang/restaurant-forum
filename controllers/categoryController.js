@@ -19,7 +19,7 @@ const categoryController = {
       req.flash('error_msg', '請輸入種類名稱！')
       return res.redirect('/admin/categories')
     } else {
-      Category.create({
+      return Category.create({
         name: req.body.categoryName
       })
         .then(category => res.redirect('/admin/categories'))
