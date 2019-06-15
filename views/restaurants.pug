@@ -1,4 +1,45 @@
 extends layouts/main.pug
 
 block content
-  div restaurants
+  ul(class="nav nav-pills")
+    li(class="nav-item")
+      if categoryId == ''
+        a(class="nav-link active" href="?categoryId=") 全部
+      else
+        a(class="nav-link" href="?categoryId=") 全部
+    for category in categories
+      li(class="nav-item")
+        if categoryId == category.id
+          a(class="nav-link active" href=`?categoryId=${category.id}`) #{category.name}
+        else
+          a(class="nav-link" href=`?categoryId=${category.id}`) #{category.name}
+  br
+
+  div(class="row")
+    for restaurant in restaurants
+      div(class="col-md-4")
+        div(class="card mb-4 shadow-sm")
+          img(class="card-img-top" src=`${restaurant.image}` alt="Card image cap" width="286px" height="180px")
+          div(class="card-body")
+            p(class="card-text")
+              a(href=`/restaurants/${restaurant.id}`) #{restaurant.name}
+            span(class="badge badge-secondary") #{restaurant.Category.name}
+            p(class="card-text") #{restaurant.description}
+  br
+  br
+
+  nav(aria-label="Page navigation example")
+    ul(class="pagination")
+      li(class="page-item")
+        a(class="page-link" href=`?page=${prev}&categoryId=${categoryId}` aria-label="Previous")
+          span(aria-hidden="true") «
+      - for(var i = 1; i <= totalPages; i++ )
+        if page == i
+          li(class="page-item active")
+            a(class="page-link" href="#") #{i}
+        else
+          li(class="page-item")
+            a(class="page-link" href=`?page=${i}&categoryId=${categoryId}`) #{i}
+      li(class="page-item")
+        a(class="page-link" href=`?page=${next}&categoryId=${categoryId}` aria-label="Next")
+          span(aria-hidden="true") »

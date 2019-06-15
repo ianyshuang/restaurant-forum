@@ -6,6 +6,15 @@ block content
       div(class="form-group")
         label(for="name") Name
         input(type="text" class="form-control" name="name" id="name" placeholder="Enter name" value=`${restaurant.name}`)
+      
+      div(class="form-group")
+        label(for="category") Category
+        select(class="form-control" name="categoryId" id="categoryId")
+          for category in categories
+            if category.id == restaurant.CategoryId
+              option(value=`${category.id}` selected) #{category.name}
+            else
+              option(value=`${category.id}`) #{category.name}
 
       div(class="form-group")
         label(for="tel") Tel
@@ -33,6 +42,12 @@ block content
       div(class="form-group")
         label(for="name") Name
         input(type="text" class="form-control" name="name" id="name" placeholder="Enter name")
+
+      div(class="form-group")
+        label(for="category") Category
+        select(class="form-control" name="categoryId" id="categoryId")
+          for category in categories
+            option(value=`${category.id}`) #{category.name}
 
       div(class="form-group")
         label(for="tel") Tel

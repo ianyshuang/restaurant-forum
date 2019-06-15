@@ -4,9 +4,11 @@ block content
   h1 餐廳後台
 
   div
-    a(href="/admin/restaurants") Restaurants
-    | |
+    a(href="/admin/restaurants") Restaurants 
+    | | 
     a(href="/admin/users") Users
+    | | 
+    a(href="/admin/categories") Categories
 
   br
 
@@ -21,12 +23,14 @@ block content
       tr
         th(scope="col") #
         th(scope="col") Name
+        th(scope="col") Category
         th(scope="col") #
     tbody
       for restaurant in restaurants
         tr
           th(scope="row") #{restaurant.id}
           td #{restaurant.name}
+          td #{restaurant.Category.name}
           td
             button(type="button" class="btn btn-link")
               a(href=`/admin/restaurants/${restaurant.id}`) Show

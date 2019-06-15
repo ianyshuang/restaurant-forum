@@ -1,12 +1,14 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
 const User = db.User
+const Category = db.Category
 const fs = require('fs')
 
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const adminController = {
+  // user controller actions
   editUser: (req, res) => {
     User.findAll()
       .then(users => res.render('admin/users', { users }))
@@ -14,25 +16,20 @@ const adminController = {
   putUser: (req, res) => {
     User.findByPk(req.params.id)
       .then(user => {
-        if (user.isAdmin) {
-          user.update({
-            isAdmin: 0
-          })
-        } else {
-          user.update({
-            isAdmin: 1
-          })
-        }
+        user.isAdmin = user.isAdmin ? 0 : 1
+        user.save()
         req.flash('success_msg', '成功修改使用者權限！')
         return res.redirect('/admin/users')
       })
   },
+  // restaurant controller actions
   getRestaurants: (req, res) => {
-    Restaurant.findAll()
+    Restaurant.findAll({ include: [Category] })
       .then(restaurants => res.render('admin/restaurants', { restaurants }))
   },
   createRestaurant: (req, res) => {
-    return res.render('admin/create')
+    Category.findAll()
+      .then(categories => res.render('admin/create', { categories }))
   },
   postRestaurant: (req, res) => {
     if (!req.body.name) {
@@ -51,6 +48,7 @@ const adminController = {
           opening_hours: req.body.opening_hours,
           description: req.body.description,
           image: file ? img.data.link : null,
+          CategoryId: req.body.categoryId
         }).then((restaurant) => {
           req.flash('success_msg', '成功新增餐廳！')
           return res.redirect('/admin/restaurants')
@@ -64,7 +62,8 @@ const adminController = {
         address: req.body.address,
         opening_hours: req.body.opening_hours,
         description: req.body.description,
-        image: null
+        image: null,
+        CategoryId: req.body.categoryId
       }).then((restaurant) => {
         req.flash('success_msg', '成功新增餐廳！')
         return res.redirect('/admin/restaurants')
@@ -72,7 +71,7 @@ const adminController = {
     }
   },
   getRestaurant: (req, res) => {
-    Restaurant.findByPk(req.params.id)
+    Restaurant.findByPk(req.params.id, { include: [Category] })
       .then(restaurant => {
         res.render('admin/restaurant', { restaurant })
       })
@@ -80,8 +79,9 @@ const adminController = {
   editRestaurant: (req, res) => {
     Restaurant.findByPk(req.params.id)
       .then(restaurant => {
-        // 與 create 共用同一個 view
-        res.render('admin/create', { restaurant })
+        Category.findAll()
+          // 與 create 共用同一個 view
+          .then(categories => res.render('admin/create', { restaurant, categories }))
       })
   },
   putRestaurant: (req, res) => {
@@ -103,6 +103,7 @@ const adminController = {
               opening_hours: req.body.opening_hours,
               description: req.body.description,
               image: file ? img.data.link : restaurant.image,
+              CategoryId: req.body.categoryId
             })
               .then((restaurant) => {
                 req.flash('success_msg', '成功更新餐廳資料！')
@@ -120,7 +121,8 @@ const adminController = {
             address: req.body.address,
             opening_hours: req.body.opening_hours,
             description: req.body.description,
-            image: restaurant.image
+            image: restaurant.image,
+            CategoryId: req.body.categoryId
           })
             .then((restaurant) => {
               req.flash('success_msg', '成功更新餐廳資料！')
@@ -136,7 +138,7 @@ const adminController = {
       .then(restaurant => {
         return res.redirect('/admin/restaurants')
       })
-  }
+  },
 }
 
 module.exports = adminController

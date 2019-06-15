@@ -1,0 +1,44 @@
+extends ../layouts/main.pug
+
+block content
+  h1 餐廳後台
+
+  div
+    a(href="/admin/restaurants") Restaurants 
+    | | 
+    a(href="/admin/users") Users
+    | | 
+    a(href="/admin/categories") Categories
+
+  br
+
+  if category
+    form(action=`/admin/categories/${category.id}?_method=PUT` method="POST")
+      input(type="text" name="categoryName" id="categoryName" value=`${category.name}` class="mr-2")
+      button(type="submit") Submit
+      span(class="mx-2") or
+      a(href="/admin/categories" style="text-decoration: none; color: black;") Create New
+  else
+    form(action=`/admin/categories` method="POST")
+      input(type="text" name="categoryName" id="categoryName" placeholder="Enter category name" class="mr-2")
+      button(type="submit") Submit
+  
+  br
+  br
+
+  table(class="table")
+    thead(class="thead-dark")
+      tr
+        th(scope="col") #
+        th(scope="col") Category Name
+        th(scope="col") #
+    tbody
+      for category in categories
+        tr
+          th(scope="row") #{category.id}
+          td #{category.name}
+          td
+            button(type="button" class="btn btn-link")
+              a(href=`/admin/categories/${category.id}`) Edit
+            form(action=`/admin/categories/${category.id}?_method=DELETE` method="POST" style="display: inline;")
+              button(type="submit" class="btn btn-link") Delete

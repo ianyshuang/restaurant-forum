@@ -1,0 +1,51 @@
+extends layouts/main.pug
+
+block content
+  div(class="row")
+    div(class="col-md-12")
+      h1 #{restaurant.name}
+      p [#{restaurant.Category.name}]
+
+    div(class="col-md-4")
+      img(class="img-responsive center-block" src=`${restaurant.image}` style="width: 250px;margin-bottom: 25px;")
+      br
+      div(class="well")
+        ul(class="list-unstyled")
+          li
+            strong Opening Hour:
+            | #{restaurant.opening_hours}
+          li
+            strong Tel:
+            | #{restaurant.tel}
+          li
+            strong Address:
+            | #{restaurant.address}
+    div(class="col-md-8")
+      p #{restaurant.description}
+    hr
+
+  br
+  br
+  h3 所有評論
+  for comment in restaurant.Comments
+    blockquote(class="blockquote mb-0")
+      if user.isAdmin
+        form(action=`/comments/${comment.id}?_method=DELETE` method="POST" style="float: right;")
+          button(type="submit" class="btn btn-danger") Delete
+      h4
+        a(href=`/users/${comment.User.id}`) #{comment.User.name}
+      p #{comment.text}
+      footer(class="blockquote-footer") #{comment.createdAt}
+    hr
+
+  br
+
+  form(action="/comments" method="POST")
+    div(class="form-group")
+      label(for="text") 留下評論：
+      textarea(class="form-control" id="text" name="text" rows="3")
+    input(type="hidden" name="restaurantId" value=`${restaurant.id}`)
+    button(type="submit" class="btn btn-primary") Submit
+
+  br
+  a(href="javascript:history.back()") 回上一頁
