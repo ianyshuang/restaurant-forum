@@ -18,7 +18,7 @@ html
               a(href="/admin" style="color: white;margin-right: 10px;") Admin 後台
           if user
             span(style="color: white;margin-right: 10px;") Hi, #{user.email}
-            a(href="/users/{{user.id}}" style="color: white;margin-right: 10px;") Profile
+            a(href=`/users/${user.id}` style="color: white;margin-right: 10px;") Profile
             a(href="/logout")
               button(class="btn btn-outline-success my-2 my-sm-0") LogOut
     br

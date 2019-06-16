@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const userController = {
   signUpPage: (req, res) => res.render('signup'),
@@ -41,6 +43,44 @@ const userController = {
     req.logout()
     res.redirect('/signin')
   },
+  getUser: (req, res) => {
+    return User.findByPk(req.params.id)
+      .then(user => res.render('user.pug', { user }))
+  },
+  editUser: (req, res) => {
+    if (req.user.id != req.params.id) {
+      req.flash('error_msg', '您沒有權限修改其他使用者的資料！')
+      res.redirect(`/users/${req.params.id}`)
+    }
+    return User.findByPk(req.params.id)
+      .then(user => res.render('edit.pug', { user }))
+  },
+  putUser: (req, res) => {
+    if (!req.body.name) {
+      req.flash('error_msg', '請輸入姓名！')
+      res.redirect(`/users/${req.params.id}`)
+    }
+    const { file } = req
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        return User.findByPk(req.params.id)
+          .then(user => {
+            user.name = req.body.name
+            user.image = img.data.link
+            user.save()
+            res.redirect(`/users/${req.params.id}`)
+          })
+      })
+    } else {
+      return User.findByPk(req.params.id)
+        .then(user => {
+          user.name = req.body.name
+          user.save()
+          res.redirect(`/users/${req.params.id}`)
+        })
+    }
+  }
 }
 
 module.exports = userController

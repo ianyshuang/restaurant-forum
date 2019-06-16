@@ -1,0 +1,12 @@
+extends layouts/main.pug
+
+block content
+  div(class="row")
+    form(action=`/users/${user.id}?_method=PUT` method="POST" enctype="multipart/form-data")
+      div(class="form-group")
+        label(for="name") Name
+        input(class="form-control" id="name" name="name" value=`${user.name}`)
+      div(class="form-group")
+        label(for="image") Image
+        input(type="file" class="form-control-file" name="image" id="image" value=`${user.image}`)
+      button(type="submit" class="btn btn-primary") Submit
