@@ -20,6 +20,9 @@ const db = require('./models')
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'views'))
 
+// 設置 static files
+app.use(express.static(path.join(__dirname, 'static')))
+
 // 設置 upload 
 app.use('/upload', express.static(path.join(__dirname, 'upload')))
 // 使用 bodyParser

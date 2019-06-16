@@ -1,10 +1,27 @@
 extends layouts/main.pug
 
 block content
-  div(class="row")
+  div(class="row" id="profile-panel")
     div(class="col-4")
       img(src=`${user.image}` alt="avatar" style="width: 100%;")
-    div(class="col-8 pt-2 pl-4")
-      h4 #{user.name}
-      p #{user.email}
-      a(class="btn btn-primary" href=`/users/${user.id}/edit`) edit
+    div(class="col-8 pt-3 pl-4")
+      div(class="mb-3")
+        h4 #{user.name}
+      div(class="mb-3")
+        span #{user.email}
+      div(class="mb-5")
+        span
+          strong #{user.Comments.length}  
+        span 已評論餐廳
+      div(class="mb-2")
+        a(class="btn btn-primary" href=`/users/${user.id}/edit`) edit
+  div(class="card row mt-3" id="recent-comment")
+    div(class="card-header")
+      span
+        strong #{user.Comments.length}  
+      span 已評論餐廳
+    div(class="card-body")
+      for comment in user.Comments
+        a(href=`/restaurants/${comment.Restaurant.id}`)
+          img(src=`${comment.Restaurant.image}` alt=`${comment.Restaurant.name}` class="mx-2")
+
