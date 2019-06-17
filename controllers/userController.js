@@ -53,7 +53,16 @@ const userController = {
       ]
     })
       .then(user => {
-        res.render('user.pug', { user })
+        const comments = user.Comments.map(item => ({
+          ...item.dataValues
+        }))
+        const restaurantsId = Array.from(new Set(comments.map(item => item.RestaurantId)))
+        const restaurants = restaurantsId.map(id => ({
+          id: id,
+          name: comments.find(comment => comment.RestaurantId === id).Restaurant.name,
+          image: comments.find(comment => comment.RestaurantId === id).Restaurant.image,
+        }))
+        res.render('user.pug', { user, restaurants })
       })
   },
   editUser: (req, res) => {
