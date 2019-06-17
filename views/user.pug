@@ -13,8 +13,9 @@ block content
         span
           strong #{user.Comments.length}  
         span 已評論餐廳
-      div(class="mb-2")
-        a(class="btn btn-primary" href=`/users/${user.id}/edit`) edit
+      if user.id == loginUser.id
+        div(class="mb-2")
+          a(class="btn btn-primary" href=`/users/${user.id}/edit`) edit
   div(class="card row mt-3" id="recent-comment")
     div(class="card-header")
       span

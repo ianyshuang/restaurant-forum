@@ -41,9 +41,14 @@ app.use(methodOverride('_method'))
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg')
   res.locals.error_msg = req.flash('error_msg')
-  res.locals.user = req.user
+  res.locals.loginUser = req.user
   next()
 })
+
+app.use((req, res, next) => {
+  console.log(req.user)
+  next()
+}) 
 
 app.listen(port, () => {
   db.sequelize.sync()
