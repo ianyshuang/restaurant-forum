@@ -1,0 +1,13 @@
+extends layouts/main.pug
+
+block content
+  div(class="row")
+    div(class="col-md-12")
+      h1 #{restaurant.name}
+      p [#{restaurant.Category.name}]
+      hr
+      ul
+        li 評論數：#{restaurant.Comments.length}
+        li 瀏覽次數：
+        li 收藏數：
+      a(href="javascript:history.back()") 回上一頁

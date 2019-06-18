@@ -76,6 +76,11 @@ const restController = {
       comment.dataValues.createdAt = moment(comment.dataValues.createdAt).fromNow()
     })
     return res.render('feeds.pug', { restaurants, comments })
+  },
+  getDashboard: (req, res) => {
+    return Restaurant.findByPk(req.params.id, {
+      include: [Category, Comment]
+    }).then(restaurant => res.render('dashboard.pug', {restaurant}))
   }
 }
 

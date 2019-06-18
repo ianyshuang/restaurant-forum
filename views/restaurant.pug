@@ -22,6 +22,7 @@ block content
             | #{restaurant.address}
     div(class="col-md-8")
       p #{restaurant.description}
+      a(href=`/restaurants/${restaurant.id}/dashboard` class="btn btn-primary") Dashboard
     hr
 
   br
