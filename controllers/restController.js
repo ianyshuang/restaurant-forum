@@ -55,6 +55,8 @@ const restController = {
         restaurant.Comments.forEach(comment => {
           comment.dataValues.createdAt = moment(comment.dataValues.createdAt).fromNow()
         })
+        restaurant.viewCounts += 1
+        restaurant.save()
         return res.render('restaurant.pug', { restaurant })
       })
   },
