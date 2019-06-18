@@ -1,6 +1,13 @@
 extends layouts/main.pug
 
 block content
+  ul(class="nav nav-tabs")
+    li(class="nav-item")
+      a(class="nav-link active" href="/restaurants") 首頁
+    li(class="nav-item")
+      a(class="nav-link" href="/restaurants/feeds") 最新動態
+  br
+
   ul(class="nav nav-pills")
     li(class="nav-item")
       if categoryId == ''

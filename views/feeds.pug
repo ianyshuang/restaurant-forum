@@ -1,0 +1,38 @@
+extends layouts/main.pug
+
+block content
+  ul(class="nav nav-tabs")
+    li(class="nav-item")
+      a(class="nav-link" href="/restaurants") 首頁
+    li(class="nav-item")
+      a(class="nav-link active" href="/restaurants/feeds") 最新動態
+  br
+  br
+  h1 最新動態
+  hr
+  div(class="row")
+    div(class="col-md-6")
+      div(class="card")
+        div(class="card-header") 最新餐廳
+        div(class="card-body")
+          for restaurant in restaurants
+            div
+              h4
+                a(href=`/restaurants/${restaurant.id}`) #{restaurant.name}  
+                small #{restaurant.Category.name}
+              p #{restaurant.description}
+              span #{restaurant.createdAt}
+              hr
+    div(class="col-md-6")
+      div(class="card")
+        div(class="card-header") 最新評論
+        div(class="card-body")
+          for comment in comments
+            div
+              h4
+                a(href=`/restaurants/${comment.Restaurant.id}`) #{comment.Restaurant.name}
+              p #{comment.text}
+              span by 
+              a(href=`/users/${comment.User.id}`) #{comment.User.name} 
+              span at #{comment.createdAt}
+              hr

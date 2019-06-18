@@ -57,6 +57,25 @@ const restController = {
         })
         return res.render('restaurant.pug', { restaurant })
       })
+  },
+  getFeeds: async (req, res) => {
+    const restaurants = await Restaurant.findAll({
+      limit: 10,
+      order: [['createdAt', 'DESC']],
+      include: [Category]
+    })
+    restaurants.forEach(restaurant => {
+      restaurant.dataValues.createdAt = moment(restaurant.dataValues.createdAt).fromNow()
+    })
+    const comments = await Comment.findAll({
+      limit: 10,
+      order: [['createdAt', 'DESC']],
+      include: [User, Restaurant]
+    })
+    comments.forEach(comment => {
+      comment.dataValues.createdAt = moment(comment.dataValues.createdAt).fromNow()
+    })
+    return res.render('feeds.pug', { restaurants, comments })
   }
 }
 
