@@ -33,11 +33,18 @@ block content
             span(class="badge badge-secondary") #{restaurant.Category.name}
             p(class="card-text") #{restaurant.description}
             if restaurant.isFavorite
-              form(action=`/favorite/${restaurant.id}?_method=DELETE` method="POST")
+              form(action=`/favorite/${restaurant.id}?_method=DELETE` method="POST"  style="display: contents;")
                 button(type="submit" class="btn btn-danger") 移除最愛
             else
-              form(action=`/favorite/${restaurant.id}` method="POST")
+              form(action=`/favorite/${restaurant.id}` method="POST"  style="display: contents;")
                 button(type="submit" class="btn btn-primary") 加到最愛
+            | 
+            if restaurant.isLiked
+              form(action=`/like/${restaurant.id}?_method=DELETE` method="POST" style="display: contents;")
+                button(type="submit" class="btn btn-danger") Unlike
+            else
+              form(action=`/like/${restaurant.id}` method="POST" style="display: contents;")
+                button(type="submit" class="btn btn-primary") Like
   br
   br
 

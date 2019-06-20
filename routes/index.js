@@ -37,6 +37,8 @@ module.exports = (app, passport) => {
   app.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
   app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
   app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
+  app.post('/like/:restaurantId', authenticated, userController.addLike)
+  app.delete('/like/:restaurantId', authenticated, userController.removeLike)
 
   // comment 路由
   app.post('/comments', authenticated, commentController.postComment)
