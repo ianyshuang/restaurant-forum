@@ -52,11 +52,10 @@ const restController = {
       ]
     })
       .then(restaurant => {
+        restaurant.increment('viewCounts', { by: 1 })
         restaurant.Comments.forEach(comment => {
           comment.dataValues.createdAt = moment(comment.dataValues.createdAt).fromNow()
         })
-        restaurant.viewCounts += 1
-        restaurant.save()
         return res.render('restaurant.pug', { restaurant })
       })
   },
