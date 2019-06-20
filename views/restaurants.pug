@@ -32,6 +32,12 @@ block content
               a(href=`/restaurants/${restaurant.id}`) #{restaurant.name}
             span(class="badge badge-secondary") #{restaurant.Category.name}
             p(class="card-text") #{restaurant.description}
+            if restaurant.isFavorite
+              form(action=`/favorite/${restaurant.id}?_method=DELETE` method="POST")
+                button(type="submit" class="btn btn-danger") 移除最愛
+            else
+              form(action=`/favorite/${restaurant.id}` method="POST")
+                button(type="submit" class="btn btn-primary") 加到最愛
   br
   br
 

@@ -45,11 +45,6 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use((req, res, next) => {
-  console.log(req.user)
-  next()
-}) 
-
 app.listen(port, () => {
   db.sequelize.sync()
   console.log(`Express server is running on ${port}`)
