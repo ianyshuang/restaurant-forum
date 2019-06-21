@@ -52,7 +52,10 @@ const userController = {
   getUser: (req, res) => {
     return User.findByPk(req.params.id, {
       include: [
-        { model: Comment, include: [Restaurant]}
+        { model: Comment, include: [Restaurant]},
+        { model: Restaurant, as: 'FavoritedRestaurants' },
+        { model: User, as: 'Followings' },
+        { model: User, as: 'Followers' }
       ]
     })
       .then(user => {
@@ -65,6 +68,7 @@ const userController = {
           name: comments.find(comment => comment.RestaurantId === id).Restaurant.name,
           image: comments.find(comment => comment.RestaurantId === id).Restaurant.image,
         }))
+        console.log(user.dataValues)
         res.render('user.pug', { user, restaurants })
       })
   },

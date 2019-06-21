@@ -10,19 +10,64 @@ block content
       div(class="mb-3")
         span #{user.email}
       div(class="mb-5")
-        span
-          strong #{restaurants.length}  
-        span 已評論餐廳
+        div
+          span
+            strong #{restaurants.length}  
+          span 已評論餐廳
+        div
+          span
+            strong #{user.FavoritedRestaurants.length}  
+          span 已收藏餐廳
+        div
+          span
+            strong #{user.Followings.length}  
+          span followings(追蹤者)
+        div
+          span
+            strong #{user.Followers.length}  
+          span followings(追隨者)
       if user.id == loginUser.id
         div(class="mb-2")
           a(class="btn btn-primary" href=`/users/${user.id}/edit`) edit
-  div(class="card row mt-3" id="recent-comment")
-    div(class="card-header")
-      span
-        strong #{restaurants.length}  
-      span 已評論餐廳
-    div(class="card-body")
-      for restaurant in restaurants
-        a(href=`/restaurants/${restaurant.id}`)
-          img(src=`${restaurant.image}` alt=`${restaurant.name}` class="mx-2")
-
+  div(class="row mt-3")
+    div(class="pl-0 mr-4" style="width: 35%;")
+      div(class="card" class="profile-section" style="height: 100%;")
+        div(class="card-header")
+          span followings(追蹤者)
+            strong #{user.Followings.length}  
+          span 
+        div(class="card-body")
+          for following in user.Followings
+            a(href=`/users/${following.id}`)
+              img(src=`${following.image}` alt=`${following.name}` class="mx-2")
+    div(style="width: 62%;")
+      div(class="card" class="profile-section")
+        div(class="card-header")
+          span
+            strong #{restaurants.length}  
+          span 已評論餐廳
+        div(class="card-body")
+          for restaurant in restaurants
+            a(href=`/restaurants/${restaurant.id}`)
+              img(src=`${restaurant.image}` alt=`${restaurant.name}` class="mx-2")
+  div(class="row mt-3")
+    div(class="pl-0 mr-4" style="width: 35%;")
+      div(class="card" class="profile-section" style="height: 100%;")
+        div(class="card-header")
+          span followers(追隨者)
+            strong #{user.Followers.length}  
+          span 
+        div(class="card-body")
+          for follower in user.Followers
+            a(href=`/users/${follower.id}`)
+              img(src=`${follower.image}` alt=`${follower.name}` class="mx-2")
+    div(style="width: 62%;")
+      div(class="card" class="profile-section")
+        div(class="card-header")
+          span
+            strong #{user.FavoritedRestaurants.length}  
+          span 收藏的餐廳
+        div(class="card-body")
+          for favoritedRestaurant in user.FavoritedRestaurants
+            a(href=`/restaurants/${favoritedRestaurant.id}`)
+              img(src=`${favoritedRestaurant.image}` alt=`${favoritedRestaurant.name}` class="mx-2")

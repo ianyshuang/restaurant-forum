@@ -15,7 +15,7 @@ html, body {
   border-radius: 4px;
 }
 
-#recent-comment img {
+.profile-section img {
   width: 80px;
   height: 80px;
 }
