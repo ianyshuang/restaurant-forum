@@ -1,0 +1,31 @@
+extends layouts/main.pug
+
+block content
+  ul(class="nav nav-tabs")
+    li(class="nav-item")
+      a(class="nav-link" href="/restaurants") 首頁
+    li(class="nav-item")
+      a(class="nav-link" href="/restaurants/feeds") 最新動態
+    li(class="nav-item")
+      a(class="nav-link" href="/restaurants/top") TOP10 人氣餐廳
+    li(class="nav-item")
+      a(class="nav-link active" href="/users/top") 美食達人
+  br
+  br
+  h1 美食達人
+  hr
+  div(class="row" style="text-align: center;")
+   for user in users
+      div(class="col-3")
+        a(href=`/users/${user.id}`)
+          img(class="" src=`${user.image}` width="140px" height="140px")
+        
+        h2 #{user.name}
+        span(class="badge badge-secondary") 追蹤人數：#{user.followerCounts}
+        p
+          if user.isFollowed
+            form(action=`/following/${user.id}?_method=DELETE` method="POST" style="display: contents;")
+              button(type="submit" class="btn btn-danger") 取消追蹤
+          else
+            form(action=`/following/${user.id}` method="POST" style="display: contents;")
+              button(type="submit" class="btn btn-primary") 追蹤

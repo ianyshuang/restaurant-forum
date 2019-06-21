@@ -5,6 +5,7 @@ const Comment = db.Comment
 const Restaurant = db.Restaurant
 const Favorite = db.Favorite
 const Like = db.Like
+const Followship = db.Followship
 
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -131,6 +132,38 @@ const userController = {
       }
     }).then(like => {
       return like.destroy()
+    }).then(() => res.redirect('back'))
+  },
+  getTopUser: (req, res) => {
+    return User.findAll({
+      include: [
+        { model: User, as: 'Followers'}
+      ]
+    }).then(users => {
+      users = users.map(user => ({
+        ...user.dataValues,
+        followerCounts: user.Followers.length,
+        // 目前都入使用者是否有追蹤這個使用者
+        isFollowed: req.user.Followings.map(item => item.id).includes(user.id)
+      }))
+      users = users.sort((a, b) => b.followerCounts - a.followerCounts)
+      return res.render('topUser.pug', { users })
+    })
+  },
+  addFollowing: (req, res) => {
+    return Followship.create({
+      followerId: req.user.id,
+      followingId: req.params.userId
+    }).then(followship => res.redirect('back'))
+  },
+  removeFollowing: (req, res) => {
+    return Followship.findOne({
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.userId
+      }
+    }).then(followship => {
+      return followship.destroy()
     }).then(() => res.redirect('back'))
   }
 }
