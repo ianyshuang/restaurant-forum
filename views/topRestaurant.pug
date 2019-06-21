@@ -1,0 +1,38 @@
+extends layouts/main.pug
+
+block content
+  ul(class="nav nav-tabs")
+    li(class="nav-item")
+      a(class="nav-link" href="/restaurants") 首頁
+    li(class="nav-item")
+      a(class="nav-link" href="/restaurants/feeds") 最新動態
+    li(class="nav-item")
+      a(class="nav-link active" href="/restaurants/top") TOP10 人氣餐廳
+    li(class="nav-item")
+      a(class="nav-link" href="/users/top") 美食達人
+  br
+  br
+  h1 人氣餐廳
+  hr
+  div(class="row")
+    div(class="col-md-6 mx-auto")
+      for restaurant in restaurants
+        div(class="card mb-3" style="max-width: 540px;")
+          div(class="row no-gutters")
+            div(class="col-md-4")
+              img(src=`${restaurant.image}` class="card-img" alt="restaurant image")
+            div(class="col-md-8")
+              div(class="card-body")
+                h5(class="card-title") #{restaurant.name}
+                p(class="card-text")
+                  span(class="badge badge-secondary") 收藏數：#{restaurant.favoriteCounts}
+                p(class="card-text") #{restaurant.description}
+                div
+                  a(href=`/restaurants/${restaurant.id}` class="btn btn-primary") Show
+                  | 
+                  if restaurant.isFavorite
+                    form(action=`/favorite/${restaurant.id}?_method=DELETE`  method="POST" style="display: contents;")
+                      button(type="submit" class="btn btn-danger") 移除最愛
+                  else
+                    form(action=`/favorite/${restaurant.id}` method="POST" style="display: contents;")
+                      button(type="submit" class="btn btn-primary") 加到最愛

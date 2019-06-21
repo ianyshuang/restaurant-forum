@@ -47,7 +47,7 @@ const restController = {
       })
   },
   getRestaurant: (req, res) => {
-    Restaurant.findByPk(req.params.id,{
+    return Restaurant.findByPk(req.params.id,{
       include: [
         Category,
         { model: Comment, include: [User] },
@@ -88,6 +88,23 @@ const restController = {
     return Restaurant.findByPk(req.params.id, {
       include: [Category, Comment]
     }).then(restaurant => res.render('dashboard.pug', {restaurant}))
+  },
+  getTopRestaurant: (req, res) => {
+    return Restaurant.findAll({
+      include: [
+        { model: User, as: 'FavoritedUsers'}
+      ]
+    }).then(restaurants => {
+      restaurants = restaurants.map(restaurant => ({
+        ...restaurant.dataValues,
+        description: restaurant.dataValues.description.substring(0, 50),
+        favoriteCounts: restaurant.FavoritedUsers.length,
+        // 目前登入的使用者是否收藏這個餐廳
+        isFavorite: req.user.FavoritedRestaurants.map(item => item.id).includes(restaurant.id)
+      }))
+      restaurants = restaurants.sort((a, b) => b.favoriteCounts - a.favoriteCounts).slice(0, 10)
+      return res.render('topRestaurant.pug', { restaurants })
+    })
   }
 }
 
