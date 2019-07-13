@@ -23,7 +23,7 @@ const adminController = {
       })
   },
   // restaurant controller actions
-  getRestaurants: (req, res) => {
+  getRestaurants (req, res) {
     adminService.getRestaurants(req, res, (data) => { res.render('admin/restaurants', data) })
   },
   createRestaurant: (req, res) => {
@@ -69,11 +69,8 @@ const adminController = {
       })
     }
   },
-  getRestaurant: (req, res) => {
-    Restaurant.findByPk(req.params.id, { include: [Category] })
-      .then(restaurant => {
-        res.render('admin/restaurant', { restaurant })
-      })
+  getRestaurant (req, res) {
+    adminService.getRestaurant(req, res, (data) => { res.render('admin/restaurant', data) })
   },
   editRestaurant: (req, res) => {
     Restaurant.findByPk(req.params.id)

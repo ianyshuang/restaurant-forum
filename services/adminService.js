@@ -66,10 +66,11 @@ const adminSerivce = {
       })
     }
   },
-  getRestaurant: (req, res) => {
-    Restaurant.findByPk(req.params.id, { include: [Category] }).then(
+  getRestaurant: (req, res, callback) => {
+    Restaurant.findByPk(req.params.id, { include: [Category] })
+      .then(
       restaurant => {
-        res.render('admin/restaurant', { restaurant })
+        callback({ restaurant })
       }
     )
   },
