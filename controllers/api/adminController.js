@@ -11,6 +11,9 @@ const adminController = {
   },
   getRestaurant (req, res) {
     adminService.getRestaurant(req, res, (data) => { res.json(data) })
+  },
+  getCategories (req, res) {
+    adminService.getCategories(req, res, (data) => { res.json(data) })
   }
 }
 

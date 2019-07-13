@@ -1,18 +1,11 @@
 const db = require('../models')
 const Category = db.Category
+const adminService = require('../services/adminService')
 
 const categoryController = {
   // category controller actions
   getCategories: (req, res) => {
-    Category.findAll()
-      .then(categories => {
-        if (req.params.id) {
-          Category.findByPk(req.params.id)
-            .then(category => res.render('admin/categories.pug', { categories, category }))
-        } else {
-          return res.render('admin/categories.pug', { categories })
-        }
-      })
+    adminService.getCategories(req, res, (data) => { res.render('admin/categories', data) })
   },
   postCategory: (req, res) => {
     if (!req.body.categoryName) {

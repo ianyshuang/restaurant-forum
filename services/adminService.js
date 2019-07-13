@@ -21,7 +21,9 @@ const adminSerivce = {
   },
   // restaurant controller actions
   getRestaurants: (req, res, callback) => {
-    Restaurant.findAll({ include: [Category] }).then(restaurants => callback({ restaurants }))
+    Restaurant.findAll({ include: [Category] }).then(restaurants =>
+      callback({ restaurants })
+    )
   },
   createRestaurant: (req, res) => {
     Category.findAll().then(categories =>
@@ -67,8 +69,7 @@ const adminSerivce = {
     }
   },
   getRestaurant: (req, res, callback) => {
-    Restaurant.findByPk(req.params.id, { include: [Category] })
-      .then(
+    Restaurant.findByPk(req.params.id, { include: [Category] }).then(
       restaurant => {
         callback({ restaurant })
       }
@@ -136,6 +137,17 @@ const adminSerivce = {
       .then(restaurant => {
         return res.redirect('/admin/restaurants')
       })
+  },
+  getCategories: (req, res, callback) => {
+    Category.findAll().then(categories => {
+      if (req.params.id) {
+        Category.findByPk(req.params.id).then(category =>
+          callback({ categories, category })
+        )
+      } else {
+        callback({ categories })
+      }
+    })
   }
 }
 
