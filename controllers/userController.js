@@ -62,13 +62,14 @@ const userController = {
         const comments = user.Comments.map(item => ({
           ...item.dataValues
         }))
+        // 從所有 comments 中取出不重複的所有 restaurant id
         const restaurantsId = Array.from(new Set(comments.map(item => item.RestaurantId)))
+        // 用這些不重複的 restaurant id 去 comment 裡撈需要的資料
         const restaurants = restaurantsId.map(id => ({
           id: id,
           name: comments.find(comment => comment.RestaurantId === id).Restaurant.name,
           image: comments.find(comment => comment.RestaurantId === id).Restaurant.image,
         }))
-        console.log(user.dataValues)
         res.render('user.pug', { user, restaurants })
       })
   },

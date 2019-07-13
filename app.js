@@ -50,4 +50,4 @@ app.listen(port, () => {
   console.log(`Express server is running on ${port}`)
 })
 
-require('./routes')(app, passport)
+app.use('/', require('./routes/index'))
